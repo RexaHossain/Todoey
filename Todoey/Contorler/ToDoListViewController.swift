@@ -6,6 +6,7 @@
 //  Copyright © 2019 Mohammad Rezaul karim. All rights reserved.
 //
 
+
 import UIKit
 
 
@@ -33,6 +34,11 @@ class ToDoListViewController: UITableViewController {
         let newItem3 = Item()
         newItem3.title = "Item three"
         itemArray.append(newItem3)
+        
+        
+        if let items = defaults.array(forKey: "ToDoListArray") as? [Item] {
+            itemArray = items
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -53,12 +59,11 @@ class ToDoListViewController: UITableViewController {
         
         cell.textLabel?.text = item.title
         
-        if item.done == true{
-            cell.accessoryType = .checkmark
-        }
-        else{
-            cell.accessoryType = .none
-        }
+        
+        // Ternary Operator
+        
+        cell.accessoryType = item.done == true ? .checkmark : .none
+        
         
         return cell
     }
@@ -86,9 +91,7 @@ class ToDoListViewController: UITableViewController {
             newItem.title = textFiled.text!
             
             self.itemArray.append(newItem)
-//
-//            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
-            
+            self.defaults.set(self.itemArray, forKey: "ToDoListArray")
             self.tableView.reloadData()
         }
         
